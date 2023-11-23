@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+
+  tasks:
+    - name: "Include gitea_rootless"
+      ansible.builtin.include_role:
+        name: "gitea_rootless"

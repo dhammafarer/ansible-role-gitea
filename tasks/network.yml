@@ -1,0 +1,5 @@
+---
+- name: Create Podman Network for gitea.
+  containers.podman.podman_network:
+    name: "{{ gitea_net_name }}"
+    state: present

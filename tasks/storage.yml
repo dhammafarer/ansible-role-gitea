@@ -1,0 +1,13 @@
+---
+- name: Ensure volume directories exist for gitea.
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ gitea_uid }}"
+    group: "{{ gitea_gid }}"
+  loop:
+    - /srv/gitea/postgres
+    - /srv/gitea/data
+    - /srv/gitea/config
