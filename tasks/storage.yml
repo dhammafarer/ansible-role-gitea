@@ -5,8 +5,8 @@
     path: "{{ item }}"
     mode: "0755"
     state: directory
-    owner: "{{ gitea_uid }}"
-    group: "{{ gitea_gid }}"
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_user }}"
   loop:
     - /srv/gitea/postgres
     - /srv/gitea/data

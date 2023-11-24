@@ -7,9 +7,9 @@ collections:
   - containers.podman
 
 galaxy_info:
-  role_name: gitea_rootless
+  role_name: gitea
   author: palekiwi
-  description: Install gitea
+  description: Install gitea in a rootless podman container.
   license: "license (BSD, MIT)"
   min_ansible_version: "2.10"
   platforms:

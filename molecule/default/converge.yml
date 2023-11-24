@@ -3,6 +3,6 @@
   hosts: all
 
   tasks:
-    - name: "Include gitea_rootless"
+    - name: "Include gitea"
       ansible.builtin.include_role:
-        name: "gitea_rootless"
+        name: gitea

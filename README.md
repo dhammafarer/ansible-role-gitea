@@ -1,22 +1,51 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Installs gitea and a database in rootless containers.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Role requires podman and netavark to be installed.
 
 Role Variables
 --------------
+Port variables:
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+    gitea_publish_http: port that gitea web app listens on, default is "3000".
+    gitea_publish_ssh: port that gitea internal ssh service listens, default is "2222".
+
+Name of the podman network:
+
+    gitea_net_name: gitea
+
+User that gitea runs as:
+
+    gitea_user_create: true
+    gitea_user: name of the user that gitea will run under, default is git.
+
+Images:
+
+    gitea_db_image_name:  "docker.io/library/postgres".
+    gitea_db_image_tag: "16-alpine"
+
+    gitea_app_image_name: "docker.io/gitea/gitea"
+    gitea_app_image_tag: "1.21-rootless"
+
+Database variables: 
+
+    gitea_db_type: postgres
+    gitea_db_name: gitea
+    gitea_db_user: gitea
+    gitea_db_pass: password
+    gitea_db_port: 5432
 
 Dependencies
 ------------
+Collections:
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- containers.podman
+- community.general
 
 Example Playbook
 ----------------
@@ -25,7 +54,11 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+        - role: palekiwi.gitea_rootless
+          vars:
+            gitea_app_image_tag: 1.21-rootless
+            gitea_db_image_tag: 16-alpine
+            gitea_db_pass: secret
 
 License
 -------

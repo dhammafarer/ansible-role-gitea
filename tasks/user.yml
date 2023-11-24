@@ -1,19 +1,14 @@
 ---
 - name: Create a user named git.
   become: true
+  when: gitea_user_create
   ansible.builtin.user:
-    name: git
+    name: "{{ gitea_user }}"
     state: present
-    password: '!'
     comment: "Git Version Control"
-    home: /home/git
+    home: /home/{{ gitea_user }}
     shell: /bin/bash
   register: user_data
-
-- name: Set facts for UID and GID of git user.
-  ansible.builtin.set_fact:
-    gitea_uid: "{{ user_data.uid }}"
-    gitea_gid: "{{ user_data.group }}"
 
 - name: Check if gitea user has lingering enabled.
   ansible.builtin.command:
