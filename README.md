@@ -1,4 +1,4 @@
-Role Name
+Ansibe Role: Gitea
 =========
 
 Installs gitea and a database in rootless containers.
