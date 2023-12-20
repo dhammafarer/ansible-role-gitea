@@ -1,19 +1,10 @@
 ---
-- name: Include user tasks.
-  ansible.builtin.include_tasks: user.yml
-
-- name: Include storage tasks.
-  ansible.builtin.include_tasks: storage.yml
+- name: Include setup tasks.
+  ansible.builtin.include_tasks: setup.yml
 
 - name: Run tasks as user.
   become: true
   become_user: "{{ gitea_user }}"
   block:
-    - name: Include network tasks.
-      ansible.builtin.include_tasks: network.yml
-
-    - name: Include db tasks.
-      ansible.builtin.include_tasks: db.yml
-
     - name: Include app tasks.
       ansible.builtin.include_tasks: app.yml

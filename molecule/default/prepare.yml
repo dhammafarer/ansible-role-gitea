@@ -3,11 +3,47 @@
   become: true
   hosts: all
 
-  roles:
-    - role: palekiwi.epel
+  vars_files:
+    - vars/keys.yml
+    - vars/main.yml
+    - vars/postgres.yml
 
   tasks:
+    - name: "Include palekiwi.epel"
+      ansible.builtin.include_role:
+        name: "palekiwi.epel"
+
     - name: Ensure podman is installed.
       ansible.builtin.dnf:
         name: podman
         state: present
+
+    - name: Create a user for gitea.
+      ansible.builtin.user:
+        name: "{{ gitea_user }}"
+        state: present
+        comment: "Git Version Control"
+        home: /home/{{ gitea_user }}
+        shell: /bin/bash
+
+    - name: Set authorized key for gitea user.
+      ansible.posix.authorized_key:
+        user: "{{ gitea_user }}"
+        state: present
+        key: "{{ item }}"
+      loop: "{{ gitea_authorized_keys }}"
+
+    - name: Ensure required volume dirs are created.
+      ansible.builtin.file:
+        path: "{{ item }}"
+        mode: "0755"
+        owner: "{{ gitea_user }}"
+        group: "{{ gitea_user }}"
+        state: directory
+        setype: container_file_t
+      loop:
+        - "{{ postgres_volumes_dir }}"
+
+    - name: "Include palekiwi.postgres"
+      ansible.builtin.include_role:
+        name: "palekiwi.postgres"

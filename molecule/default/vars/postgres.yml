@@ -1,0 +1,10 @@
+---
+postgres_user: "{{ gitea_user }}"
+
+postgres_pod_name: postgres
+postgres_volumes_dir: /mnt/postgres
+postgres_net_name: "{{ gitea_net_name }}"
+
+postgres_db_user: gitea
+postgres_db_database: gitea
+postgres_db_password: gitea
